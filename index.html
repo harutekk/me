@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Takuya Haruguchi – Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1a1714;
+      --paper: #f5f0eb;
+      --stone: #8c7b6e;
+      --dust: #c9bfb4;
+      --accent: #5c3d2e;
+      --gold: #b8946a;
+      --fade: #e8e0d8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.6;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--stone);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 4rem 6rem;
+      position: relative;
+    }
+
+    .hero-left::after {
+      content: '春口拓也';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200;
+      font-size: 5rem;
+      color: var(--dust);
+      letter-spacing: 0.3em;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .hero-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--ink);
+      animation: fadeUp 1s 0.15s ease both;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--stone);
+      max-width: 320px;
+      line-height: 1.9;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .hero-right {
+      background: var(--fade);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stone-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 2px;
+      opacity: 0.6;
+    }
+
+    .stone-cell {
+      background: var(--dust);
+      animation: stoneReveal 1.5s ease both;
+    }
+
+    .stone-cell:nth-child(odd) { background: var(--fade); }
+    .stone-cell:nth-child(3n) { background: #ddd4c9; }
+
+    @keyframes stoneReveal {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .hero-right-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem;
+    }
+
+    .kanji-display {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200;
+      font-size: clamp(4rem, 8vw, 7rem);
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      animation: fadeIn 2s 0.5s ease both;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .kanji-sub {
+      margin-top: 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+      animation: fadeIn 2s 0.8s ease both;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 3rem auto;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 7rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: var(--gold);
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      line-height: 2;
+      color: var(--stone);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text p strong {
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .about-facts {
+      border-left: 1px solid var(--dust);
+      padding-left: 3rem;
+    }
+
+    .fact {
+      margin-bottom: 2.5rem;
+    }
+
+    .fact-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .fact-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ── SKILLS ── */
+    .skills-section { background: var(--ink); color: var(--paper); }
+
+    .skills-section .section-label { color: var(--gold); }
+    .skills-section .section-label::after { background: var(--gold); }
+    .skills-section h2 { color: var(--paper); }
+
+    .skills-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 7rem 4rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .skill-group-title {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .skill-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #2a2622;
+      font-size: 0.8rem;
+      color: var(--dust);
+      letter-spacing: 0.05em;
+    }
+
+    .skill-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #2a2622;
+    }
+
+    .dot.filled { background: var(--gold); }
+
+    /* ── EXPERIENCE ── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      bottom: 0;
+      width: 1px;
+      background: var(--dust);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 4rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0.45rem;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      transform: translateX(-3px);
+    }
+
+    .timeline-date {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-company {
+      font-size: 0.75rem;
+      color: var(--stone);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: var(--stone);
+      max-width: 540px;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 1rem;
+    }
+
+    .edu-card {
+      border: 1px solid var(--dust);
+      padding: 2.5rem;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .edu-card:hover { border-color: var(--gold); }
+
+    .edu-type {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .edu-school {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-field {
+      font-size: 0.78rem;
+      color: var(--stone);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .edu-year {
+      font-size: 0.65rem;
+      color: var(--dust);
+      letter-spacing: 0.15em;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: var(--accent);
+      color: var(--paper);
+      text-align: center;
+      padding: 8rem 4rem;
+    }
+
+    .contact-section .section-label { color: var(--gold); justify-content: center; }
+    .contact-section .section-label::after { display: none; }
+    .contact-section h2 { color: var(--paper); font-size: clamp(2.5rem, 5vw, 4rem); }
+
+    .contact-info {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-item a,
+    .contact-item span {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--dust);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .contact-item a:hover { color: var(--paper); }
+
+    .contact-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--stone);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 7rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-facts { border-left: none; padding-left: 0; border-top: 1px solid var(--dust); padding-top: 2rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .skills-inner { padding: 4rem 1.5rem; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .contact-info { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">春口 拓也</a>
+    <ul class="nav-links">
+      <li><a href="#about">Über mich</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Erfahrung</a></li>
+      <li><a href="#education">Ausbildung</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-tag">Mediengestalter &nbsp;/&nbsp; Bildhauer &nbsp;/&nbsp; Designer</p>
+      <h1>Takuya<br><em>Haruguchi</em></h1>
+      <p class="hero-sub">
+        Gestalter mit Hintergrund in zeitgenössischer Skulptur,<br>
+        Innenarchitektur und digitalem Design.<br>
+        Wohnhaft in Tübingen &nbsp;·&nbsp; Aus Japan
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="stone-grid">
+        <div class="stone-cell" style="animation-delay:0.05s"></div>
+        <div class="stone-cell" style="animation-delay:0.1s"></div>
+        <div class="stone-cell" style="animation-delay:0.15s"></div>
+        <div class="stone-cell" style="animation-delay:0.2s"></div>
+        <div class="stone-cell" style="animation-delay:0.25s"></div>
+        <div class="stone-cell" style="animation-delay:0.3s"></div>
+        <div class="stone-cell" style="animation-delay:0.35s"></div>
+        <div class="stone-cell" style="animation-delay:0.4s"></div>
+        <div class="stone-cell" style="animation-delay:0.45s"></div>
+        <div class="stone-cell" style="animation-delay:0.5s"></div>
+        <div class="stone-cell" style="animation-delay:0.55s"></div>
+        <div class="stone-cell" style="animation-delay:0.6s"></div>
+      </div>
+      <div class="hero-right-content">
+        <div class="kanji-display">彫刻<br>デザイン</div>
+        <p class="kanji-sub">Skulptur &nbsp;·&nbsp; Design</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">Über mich</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2>Form folgt<br><em style="font-family:'Cormorant Garamond',serif; font-style:italic;">Erfahrung</em></h2>
+        <p>
+          Ich bin <strong>Takuya Haruguchi</strong>, geboren 1986 in Japan. Mein Weg führte mich von der Universität Oita, wo ich <strong>zeitgenössische Skulptur</strong> studierte, über Tokio und Paris bis nach Tübingen.
+        </p>
+        <p>
+          In Japan verbindet sich handwerkliche Präzision mit ästhetischem Bewusstsein. Diese Haltung begleitet mich durch alle Bereiche meiner Arbeit – ob bei der digitalen Gestaltung mit <strong>Adobe Illustrator und Photoshop</strong>, bei technischen Zeichnungen oder bei der Arbeit mit Naturstein.
+        </p>
+        <p>
+          Seit August 2025 lebe ich in <strong>Tübingen</strong> und freue mich darauf, meine Erfahrungen hier einzubringen.
+        </p>
+      </div>
+      <div class="about-facts reveal">
+        <div class="fact">
+          <p class="fact-label">Wohnort</p>
+          <p class="fact-value">Tübingen, Deutschland</p>
+        </div>
+        <div class="fact">
+          <p class="fact-label">Herkunft</p>
+          <p class="fact-value">Japan</p>
+        </div>
+        <div class="fact">
+          <p class="fact-label">Sprachen</p>
+          <p class="fact-value">日本語 · Deutsch · Français · English</p>
+        </div>
+        <div class="fact">
+          <p class="fact-label">Schwerpunkte</p>
+          <p class="fact-value">Skulptur · Mediengestaltung<br>Technisches Zeichnen · Handwerk</p>
+        </div>
+        <div class="fact">
+          <p class="fact-label">Kontakt</p>
+          <p class="fact-value">haruguchi0985@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <div class="skills-section">
+    <div class="skills-inner">
+      <div class="section-label">Kenntnisse</div>
+      <h2>Skills &amp; Werkzeuge</h2>
+      <div class="skills-grid reveal">
+        <div>
+          <p class="skill-group-title">Grafikdesign &amp; Digital</p>
+          <div class="skill-item">Adobe Illustrator <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
+          <div class="skill-item">Adobe Photoshop <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
+          <div class="skill-item">Website-Pflege <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="skill-item">Online-Kommunikation <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+        <div>
+          <p class="skill-group-title">Technisch &amp; Handwerk</p>
+          <div class="skill-item">AutoCAD / JW CAD <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div></div></div>
+          <div class="skill-item">V-Curb Pro <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="skill-item">Lichtbogenschweißen <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="skill-item">Bildhauerei / Skulptur <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div></div></div>
+        </div>
+        <div>
+          <p class="skill-group-title">Sprachen</p>
+          <div class="skill-item">日本語 (Muttersprache) <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div></div></div>
+          <div class="skill-item">Deutsch (B1/B2) <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="skill-item">Français <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="skill-item">English <div class="skill-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Berufserfahrung</div>
+    <h2>Mein Werdegang</h2>
+    <div class="divider"></div>
+    <div class="timeline reveal">
+
+      <div class="timeline-item">
+        <p class="timeline-date">2017 – 2025</p>
+        <p class="timeline-title">Technischer Zeichner &amp; Grafikdesigner</p>
+        <p class="timeline-company">ばすぷすん工房 (Basupusun Kōbō) &nbsp;·&nbsp; Japan</p>
+        <p class="timeline-desc">Erstellung technischer 2D-Zeichnungen mit JW CAD, AutoCAD und V-Curb Pro. Grafikdesign mit Adobe Illustrator und Photoshop. Verwaltung der Online-Präsenz und Kundenkommunikation. Schweißarbeiten (Lichtbogenschweißen).</p>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">2016 – 2017</p>
+        <p class="timeline-title">Möbelmontage &amp; Qualitätskontrolle</p>
+        <p class="timeline-company">株式会社家具のきむら (Kimura Kagu) &nbsp;·&nbsp; Japan</p>
+        <p class="timeline-desc">Präzise Montage von Möbeln nach technischen Vorgaben. Qualitätskontrolle und Maßgenauigkeit. Reparatur- und Wartungsarbeiten.</p>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">2013 – 2016</p>
+        <p class="timeline-title">Handwerker &amp; Rattanmöbelherstellung</p>
+        <p class="timeline-company">橋之口藤工芸工房 (Hashinokuchi Fuji Kōgei Kōbō) &nbsp;·&nbsp; Japan</p>
+        <p class="timeline-desc">Herstellung von Rattanmöbeln. Produktionsunterstützung und Dekoration. Website-Verwaltung und Online-Präsenz.</p>
+      </div>
+
+      <div class="timeline-item">
+        <p class="timeline-date">2012</p>
+        <p class="timeline-title">Küchenhilfe &amp; Servicekraft</p>
+        <p class="timeline-company">Restaurant SHINANO &nbsp;·&nbsp; Paris, Frankreich</p>
+        <p class="timeline-desc">Kundenservice und Unterstützung in der Küche in einem japanischen Restaurant in Paris.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" style="background: var(--fade); max-width: 100%; padding: 7rem 4rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-label">Ausbildung</div>
+      <h2>Bildungsweg</h2>
+      <div class="edu-grid reveal">
+
+        <div class="edu-card">
+          <p class="edu-type">大学 &nbsp;·&nbsp; Universität</p>
+          <p class="edu-school">Universität Oita</p>
+          <p class="edu-field">Fakultät für Erziehungs- und Humanwissenschaften<br>Informations- und Kulturwissenschaften<br><strong>Zeitgenössische Skulptur</strong></p>
+          <p class="edu-year">2005 – 2009 &nbsp;·&nbsp; Bachelor</p>
+        </div>
+
+        <div class="edu-card">
+          <p class="edu-type">専門学校 &nbsp;·&nbsp; Fachschule</p>
+          <p class="edu-school">Tokyo Mode Gakuen</p>
+          <p class="edu-field">Innenarchitektur</p>
+          <p class="edu-year">2010 – 2011</p>
+        </div>
+
+        <div class="edu-card">
+          <p class="edu-type">専門学校 &nbsp;·&nbsp; Designschule</p>
+          <p class="edu-school">ESDI Creapol Paris</p>
+          <p class="edu-field">Innenarchitektur &amp; Design</p>
+          <p class="edu-year">2011 – 2012 &nbsp;·&nbsp; Paris, Frankreich</p>
+        </div>
+
+        <div class="edu-card">
+          <p class="edu-type">Sprachkurs</p>
+          <p class="edu-school">Volkshochschule Tübingen</p>
+          <p class="edu-field">Deutsch als Fremdsprache<br>B1-Prüfung abgelegt · B2 in Vorbereitung</p>
+          <p class="edu-year">2025 – heute &nbsp;·&nbsp; Tübingen</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="section-label">Kontakt</div>
+    <h2>In Kontakt treten</h2>
+    <div class="contact-info">
+      <div class="contact-item">
+        <p class="contact-label">E-Mail</p>
+        <a href="mailto:haruguchi0985@gmail.com">haruguchi0985@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <p class="contact-label">Telefon</p>
+        <span>0152 / 04653905</span>
+      </div>
+      <div class="contact-item">
+        <p class="contact-label">Standort</p>
+        <span>Tübingen, Deutschland</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 &nbsp;·&nbsp; 春口 拓也 &nbsp;·&nbsp; Takuya Haruguchi &nbsp;·&nbsp; Tübingen
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
