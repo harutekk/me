@@ -732,12 +732,7 @@
 <div style="max-width:1200px; margin: 0 auto;">	
 <div class="section-label">Portfolio</div>	
 <h2>Arbeiten &amp; Projekte</h2>	
-<div id="gallery-grid" style="	
-display: grid;	
-grid-template-columns: repeat(3, 1fr);	
-gap: 1rem;	
-margin-top: 3rem;	
-">	
+<div id="gallery-grid">	
 <!-- Gallery files-->	
 <div class="gallery-item" onclick="openLightbox(this)">	
 <img src="images/Buspusun Gelaender.JPEG" alt="Geländer aus Eisen, Handwerk"/>	
@@ -794,6 +789,12 @@ text-transform:uppercase;
 "></p>	
 </div>	
 <style>	
+.gallery-grid {
+display: grid;	
+grid-template-columns: repeat(3, 1fr);	
+gap: 1rem;	
+margin-top: 3rem;	
+}
 .gallery-item {	
 position: relative;	
 overflow: hidden;	
@@ -804,13 +805,11 @@ aspect-ratio: 4/3;
 width: 100%;	
 height: 100%;	
 object-fit: cover;	
-transition: transform 0.5s ease, filter 0.4s ease;	
-filter: grayscale(20%);	
+transition: transform 0.5s ease;	
 display: block;	
 }	
 .gallery-item:hover img {	
 transform: scale(1.05);	
-filter: grayscale(0%);	
 }	
 .gallery-caption {	
 position: absolute;	
@@ -825,7 +824,8 @@ transition: opacity 0.3s;
 }	
 .gallery-item:hover .gallery-caption { opacity: 1; }	
 @media (max-width: 768px) {	
-#gallery-grid { grid-template-columns: 1fr; }
+.gallery-grid { grid-template-columns: 1fr; }
+.gallery-caption { display: none; }
 }	
 </style>
 
